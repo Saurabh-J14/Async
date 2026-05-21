@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#00CEC9</color>
+    <color name="bg_light">#F5F6FA</color>
+    <color name="black">#FF000000</color>
+    <color name="border_color">#DFE6E9</color>
+    <color name="error_red">#FF7675</color>
+    <color name="primary">#6C5CE7</color>
+    <color name="primary_dark">#4834D4</color>
+    <color name="primary_light">#A29BFE</color>
+    <color name="priority_high_bg">#FFEBEE</color>
+    <color name="priority_high_txt">#D32F2F</color>
+    <color name="priority_low_bg">#E3F2FD</color>
+    <color name="priority_low_txt">#1976D2</color>
+    <color name="priority_medium_bg">#FFF3E0</color>
+    <color name="priority_medium_txt">#F57C00</color>
+    <color name="success_green">#2ECC71</color>
+    <color name="text_hint">#B2BEC3</color>
+    <color name="text_primary">#2D3436</color>
+    <color name="text_secondary">#636E72</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">Async</string>
+    <string name="btn_login">Sign In</string>
+    <string name="btn_signup">Sign Up</string>
+    <string name="create_account_title">Create Account</string>
+    <string name="err_empty_field">This field cannot be empty</string>
+    <string name="err_invalid_email">Please enter a valid email address</string>
+    <string name="err_invalid_login">Invalid email or password</string>
+    <string name="err_password_length">Password must be at least 6 characters</string>
+    <string name="err_password_match">Passwords do not match</string>
+    <string name="has_account">Already have an account? Sign In</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="hint_full_name">Enter your full name</string>
+    <string name="hint_password">••••••••</string>
+    <string name="label_confirm_password">Confirm Password</string>
+    <string name="label_email">Email Address</string>
+    <string name="label_full_name">Full Name</string>
+    <string name="label_password">Password</string>
+    <string name="login_subtitle">Sign in to manage your daily tasks seamlessly</string>
+    <string name="no_account">Don\'t have an account? Sign Up</string>
+    <string name="signup_subtitle">Get started with Async and organize your projects</string>
+    <string name="title_home">Home</string>
+    <string name="title_my_task">My Tasks</string>
+    <string name="title_projects">Projects</string>
+    <string name="welcome_back">Welcome Back</string>
+    <style name="Theme.Async" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorSecondaryVariant">@color/accent</item>
+        <item name="colorOnSecondary">@color/black</item>
+        
+        
+        <item name="android:windowBackground">@color/bg_light</item>
+        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

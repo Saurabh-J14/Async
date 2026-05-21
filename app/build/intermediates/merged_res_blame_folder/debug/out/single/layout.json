@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\item_manage_employee.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\item_manage_employee.xml"
+    },
+    {
+        "merged": "com.async.app-mergeDebugResources-42:/layout/item_task.xml",
+        "source": "com.async.app-main-45:/layout/item_task.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\item_task.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\item_task.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\fragment_my_task.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\fragment_my_task.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\fragment_manage.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\fragment_manage.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\fragment_projects.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\fragment_projects.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\item_project.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\item_project.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\activity_profile.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\activity_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\item_manage_task.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\item_manage_task.xml"
+    },
+    {
+        "merged": "com.async.app-mergeDebugResources-42:/layout/item_manage_task.xml",
+        "source": "com.async.app-main-45:/layout/item_manage_task.xml"
+    },
+    {
+        "merged": "com.async.app-mergeDebugResources-42:/layout/activity_profile.xml",
+        "source": "com.async.app-main-45:/layout/activity_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\fragment_home.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\fragment_home.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\activity_login.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\activity_signup.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\activity_signup.xml"
+    },
+    {
+        "merged": "com.async.app-mergeDebugResources-42:/layout/fragment_manage.xml",
+        "source": "com.async.app-main-45:/layout/fragment_manage.xml"
+    },
+    {
+        "merged": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-mergeDebugResources-42:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\User\\.gradle\\daemon\\8.0\\com.async.app-main-45:\\layout\\activity_main.xml"
+    }
+]
