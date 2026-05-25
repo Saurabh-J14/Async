@@ -98,6 +98,50 @@
                             android:textSize="16sp"
                             android:layout_marginBottom="20dp"/>
 
+                        <!-- Username field -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="USERNAME"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_secondary"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <EditText
+                            android:id="@+id/et_profile_username"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_edittext"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:inputType="text"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="20dp"/>
+
+                        <!-- Password field -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PASSWORD"
+                            android:textSize="12sp"
+                            android:textColor="@color/text_secondary"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp"/>
+
+                        <EditText
+                            android:id="@+id/et_profile_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_edittext"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:inputType="textPassword"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="20dp"/>
+
                         <!-- Email Field (Read Only) -->
                         <TextView
                             android:layout_width="wrap_content"
@@ -155,6 +199,71 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="12dp"/>
 
+                <!-- Settings Preferences Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp"
+                    android:layout_marginBottom="24dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="SETTINGS &amp; PREFERENCES"
+                            android:textSize="12sp"
+                            android:textColor="@color/primary"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="16dp"
+                            android:letterSpacing="0.1"/>
+
+                        <!-- Theme Preference Option -->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_alignParentLeft="true"
+                                android:layout_toLeftOf="@+id/switch_theme"
+                                android:layout_marginRight="16dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Dark Theme Mode"
+                                    android:textColor="@color/text_primary"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Toggle dark/light background styles"
+                                    android:textColor="@color/text_secondary"
+                                    android:textSize="12sp"
+                                    android:layout_marginTop="2dp"/>
+                            </LinearLayout>
+
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:id="@+id/switch_theme"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
                 <!-- Logout Button -->
                 <Button
                     android:id="@+id/btn_logout"
@@ -189,7 +298,7 @@
             app:titleTextColor="@color/white"/>
 
         <!-- Custom Touch Canvas for Crop -->
-        <com.async.app.view.CustomCropView
+        <com.async.app.view.customs.CustomCropView
             android:id="@+id/crop_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"

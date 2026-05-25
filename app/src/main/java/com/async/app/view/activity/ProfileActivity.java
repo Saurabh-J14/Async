@@ -8,80 +8,48 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.async.app.R;
+import com.async.app.databinding.ActivityProfileBinding;
 import com.async.app.model.User;
-import com.async.app.repository.MockDataRepository;
-import com.async.app.view.customs.CustomCropView;
+import com.async.app.util.SessionManager;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 101;
+    private static final int STORAGE_PERMISSION_CODE = 202;
 
-    private ImageView imgProfileAvatar;
-    private EditText etProfileName;
-    private TextView tvProfileEmail;
-    private TextView tvProfileRole;
-    private Button btnChangePhoto;
-    private Button btnSaveProfile;
-    private Button btnLogout;
-
-    // Crop UI overlays
-    private LinearLayout layoutCropContainer;
-    private CustomCropView cropView;
-    private Button btnCropCancel;
-    private Button btnCropApply;
-
+    private ActivityProfileBinding binding;
     private Bitmap croppedBitmap = null;
-    private MockDataRepository repository;
+    private SessionManager sessionManager;
     private User currentUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        binding = ActivityProfileBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        repository = MockDataRepository.getInstance();
-        currentUser = repository.getCurrentUser();
+        sessionManager = SessionManager.getInstance(this);
+        currentUser = sessionManager.getUser();
 
-        initViews();
         setupToolbar();
         bindUserData();
         setupListeners();
     }
 
-    private void initViews() {
-        imgProfileAvatar = findViewById(R.id.img_profile_avatar);
-        etProfileName = findViewById(R.id.et_profile_name);
-        tvProfileEmail = findViewById(R.id.tv_profile_email);
-        tvProfileRole = findViewById(R.id.tv_profile_role);
-        btnChangePhoto = findViewById(R.id.btn_change_photo);
-        btnSaveProfile = findViewById(R.id.btn_save_profile);
-        btnLogout = findViewById(R.id.btn_logout);
-
-        layoutCropContainer = findViewById(R.id.layout_crop_container);
-        cropView = findViewById(R.id.crop_view);
-        btnCropCancel = findViewById(R.id.btn_crop_cancel);
-        btnCropApply = findViewById(R.id.btn_crop_apply);
-    }
-
     private void setupToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar_profile);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbarProfile);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -95,9 +63,12 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
-        etProfileName.setText(currentUser.getFullName());
-        tvProfileEmail.setText(currentUser.getEmail());
-        tvProfileRole.setText(currentUser.getRole());
+        binding.etProfileName.setText(currentUser.getFullName());
+        binding.etProfileUsername.setText(currentUser.getUsername());
+        binding.etProfilePassword.setText(currentUser.getPassword());
+        binding.tvProfileEmail.setText(currentUser.getEmail());
+        binding.tvProfileRole.setText(currentUser.getRole());
+        binding.switchTheme.setChecked(sessionManager.isDarkModeEnabled());
 
         // Load avatar if present
         if (currentUser.getProfileImage() != null) {
@@ -105,56 +76,63 @@ public class ProfileActivity extends AppCompatActivity {
                 byte[] decodedBytes = Base64.decode(currentUser.getProfileImage(), Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
                 if (bitmap != null) {
-                    imgProfileAvatar.setImageBitmap(bitmap);
+                    binding.imgProfileAvatar.setImageBitmap(bitmap);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                imgProfileAvatar.setImageResource(R.drawable.ic_avatar_placeholder);
+                binding.imgProfileAvatar.setImageResource(R.drawable.ic_avatar_placeholder);
             }
         } else {
-            imgProfileAvatar.setImageResource(R.drawable.ic_avatar_placeholder);
+            binding.imgProfileAvatar.setImageResource(R.drawable.ic_avatar_placeholder);
         }
     }
 
     private void setupListeners() {
-        btnChangePhoto.setOnClickListener(new View.OnClickListener() {
+        binding.btnChangePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requestStoragePermission();
             }
         });
 
-        btnSaveProfile.setOnClickListener(new View.OnClickListener() {
+        binding.btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveProfileData();
             }
         });
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        binding.btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 performLogout();
             }
         });
 
-        btnCropCancel.setOnClickListener(new View.OnClickListener() {
+        binding.switchTheme.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                cropView.clear();
-                layoutCropContainer.setVisibility(View.GONE);
+            public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
+                sessionManager.setDarkModeEnabled(isChecked);
+                sessionManager.applyTheme();
+                recreate();
             }
         });
 
-        btnCropApply.setOnClickListener(new View.OnClickListener() {
+        binding.btnCropCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.cropView.clear();
+                binding.layoutCropContainer.setVisibility(View.GONE);
+            }
+        });
+
+        binding.btnCropApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 applyImageCrop();
             }
         });
     }
-
-    private static final int STORAGE_PERMISSION_CODE = 202;
 
     private void requestStoragePermission() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
@@ -185,7 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void performLogout() {
-        repository.logout();
+        sessionManager.logout();
         Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -208,8 +186,8 @@ public class ProfileActivity extends AppCompatActivity {
                 // Downsample image to a maximum dimension of 1024px to prevent OutOfMemoryError
                 Bitmap selectedBmp = getDownsampledBitmap(imageUri, 1024);
                 if (selectedBmp != null) {
-                    layoutCropContainer.setVisibility(View.VISIBLE);
-                    cropView.setBitmap(selectedBmp);
+                    binding.layoutCropContainer.setVisibility(View.VISIBLE);
+                    binding.cropView.setBitmap(selectedBmp);
                 } else {
                     Toast.makeText(this, "Failed to load the selected image.", Toast.LENGTH_SHORT).show();
                 }
@@ -259,16 +237,16 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void applyImageCrop() {
-        Bitmap cropped = cropView.getCroppedBitmap();
+        Bitmap cropped = binding.cropView.getCroppedBitmap();
         if (cropped != null) {
             // Recycle old croppedBitmap if present to free memory
             if (croppedBitmap != null && !croppedBitmap.isRecycled()) {
                 croppedBitmap.recycle();
             }
             croppedBitmap = cropped;
-            imgProfileAvatar.setImageBitmap(croppedBitmap);
-            cropView.clear(); // Clears source image of cropView to free memory immediately
-            layoutCropContainer.setVisibility(View.GONE);
+            binding.imgProfileAvatar.setImageBitmap(croppedBitmap);
+            binding.cropView.clear(); // Clears source image of cropView to free memory immediately
+            binding.layoutCropContainer.setVisibility(View.GONE);
             Toast.makeText(this, "Avatar crop applied! Save your profile to persist changes.", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Cropping failed. Please try again.", Toast.LENGTH_SHORT).show();
@@ -276,35 +254,137 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void saveProfileData() {
-        String newName = etProfileName.getText().toString().trim();
+        final String newName = binding.etProfileName.getText().toString().trim();
+        final String newUsername = binding.etProfileUsername.getText().toString().trim();
+        final String newPassword = binding.etProfilePassword.getText().toString().trim();
+
         if (newName.isEmpty()) {
             Toast.makeText(this, "Name cannot be empty.", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (newUsername.isEmpty()) {
+            Toast.makeText(this, "Username cannot be empty.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (newPassword.isEmpty()) {
+            Toast.makeText(this, "Password cannot be empty.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (newPassword.length() < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Update name
-        currentUser.setFullName(newName);
+        String currentUsername = currentUser.getUsername();
+        String currentPassword = currentUser.getPassword();
+        String credentials = currentUsername + ":" + currentPassword;
+        String authHeader = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
 
-        // Update profile picture
+        File tempFile = null;
         if (croppedBitmap != null) {
             try {
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                // Compress as JPEG with 80% quality to save memory and avoid OutOfMemory or SharedPreferences limits
-                croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
-                byte[] byteArray = outputStream.toByteArray();
-                String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                repository.updateUserProfileImage(currentUser.getEmail(), base64Image);
-            } catch (Throwable t) {
-                t.printStackTrace();
-                Toast.makeText(this, "Failed to save profile photo due to low memory.", Toast.LENGTH_SHORT).show();
+                tempFile = new File(getCacheDir(), "temp_avatar.jpg");
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (currentUser.getProfileImage() != null && !currentUser.getProfileImage().trim().isEmpty()) {
+            try {
+                byte[] decodedBytes = Base64.decode(currentUser.getProfileImage(), Base64.DEFAULT);
+                tempFile = new File(getCacheDir(), "temp_avatar.jpg");
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                fos.write(decodedBytes);
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
-        Toast.makeText(this, "Profile saved successfully!", Toast.LENGTH_SHORT).show();
-        
-        // Return success result
-        setResult(RESULT_OK);
-        finish();
+        okhttp3.RequestBody nameBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), newName);
+        okhttp3.RequestBody usernameBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), newUsername);
+        okhttp3.RequestBody passwordBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), newPassword);
+
+        okhttp3.MultipartBody.Part avatarPart = null;
+        if (tempFile != null && tempFile.exists()) {
+            okhttp3.RequestBody fileBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("image/jpeg"), tempFile);
+            avatarPart = okhttp3.MultipartBody.Part.createFormData("avatar", tempFile.getName(), fileBody);
+        }
+
+        binding.btnSaveProfile.setEnabled(false);
+        binding.btnSaveProfile.setText("Saving...");
+
+        final File finalTempFile = tempFile;
+        com.async.app.network.ApiClient.getApiService().updateProfile(authHeader, nameBody, usernameBody, passwordBody, avatarPart)
+                .enqueue(new retrofit2.Callback<okhttp3.ResponseBody>() {
+                    @Override
+                    public void onResponse(retrofit2.Call<okhttp3.ResponseBody> call, retrofit2.Response<okhttp3.ResponseBody> response) {
+                        binding.btnSaveProfile.setEnabled(true);
+                        binding.btnSaveProfile.setText("Save Profile");
+
+                        if (finalTempFile != null && finalTempFile.exists()) {
+                            finalTempFile.delete();
+                        }
+
+                        if (response.isSuccessful()) {
+                            currentUser.setFullName(newName);
+                            currentUser.setUsername(newUsername);
+                            currentUser.setPassword(newPassword);
+
+                            // If a new cropped image was selected, save it locally in the session too
+                            if (croppedBitmap != null) {
+                                try {
+                                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                                    croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
+                                    byte[] byteArray = outputStream.toByteArray();
+                                    String base64Image = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                    currentUser.setProfileImage(base64Image);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            sessionManager.saveUser(currentUser);
+                            Toast.makeText(ProfileActivity.this, "Profile saved successfully!", Toast.LENGTH_SHORT).show();
+                            setResult(RESULT_OK);
+                            finish();
+                        } else {
+                            try {
+                                String errorMsg = "Update failed";
+                                if (response.errorBody() != null) {
+                                    String errorStr = response.errorBody().string();
+                                    if (errorStr.contains("\"detail\"")) {
+                                        com.google.gson.JsonObject obj = new com.google.gson.JsonParser().parse(errorStr).getAsJsonObject();
+                                        if (obj.has("detail")) {
+                                            errorMsg = obj.get("detail").getAsString();
+                                        }
+                                    } else if (errorStr.contains("\"message\"")) {
+                                        com.google.gson.JsonObject obj = new com.google.gson.JsonParser().parse(errorStr).getAsJsonObject();
+                                        if (obj.has("message")) {
+                                            errorMsg = obj.get("message").getAsString();
+                                        }
+                                    } else {
+                                        errorMsg = errorStr;
+                                    }
+                                }
+                                Toast.makeText(ProfileActivity.this, errorMsg, Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Toast.makeText(ProfileActivity.this, "Update failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(retrofit2.Call<okhttp3.ResponseBody> call, Throwable t) {
+                        binding.btnSaveProfile.setEnabled(true);
+                        binding.btnSaveProfile.setText("Save Profile");
+                        if (finalTempFile != null && finalTempFile.exists()) {
+                            finalTempFile.delete();
+                        }
+                        Toast.makeText(ProfileActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

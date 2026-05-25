@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +38,9 @@ public final class ActivitySignupBinding implements ViewBinding {
   public final EditText etConfirmPassword;
 
   @NonNull
+  public final EditText etDepartment;
+
+  @NonNull
   public final EditText etEmail;
 
   @NonNull
@@ -46,16 +50,25 @@ public final class ActivitySignupBinding implements ViewBinding {
   public final EditText etPassword;
 
   @NonNull
+  public final EditText etUsername;
+
+  @NonNull
   public final ImageView imgLogo;
 
   @NonNull
   public final ProgressBar signupProgressBar;
 
   @NonNull
+  public final Spinner spinnerRole;
+
+  @NonNull
   public final TextView txtAppName;
 
   @NonNull
   public final TextView txtConfirmPasswordError;
+
+  @NonNull
+  public final TextView txtDepartmentError;
 
   @NonNull
   public final TextView txtEmailError;
@@ -66,28 +79,38 @@ public final class ActivitySignupBinding implements ViewBinding {
   @NonNull
   public final TextView txtPasswordError;
 
+  @NonNull
+  public final TextView txtUsernameError;
+
   private ActivitySignupBinding(@NonNull ScrollView rootView, @NonNull TextView btnGotoLogin,
       @NonNull Button btnSignup, @NonNull CardView cardForm, @NonNull EditText etConfirmPassword,
-      @NonNull EditText etEmail, @NonNull EditText etFullName, @NonNull EditText etPassword,
-      @NonNull ImageView imgLogo, @NonNull ProgressBar signupProgressBar,
+      @NonNull EditText etDepartment, @NonNull EditText etEmail, @NonNull EditText etFullName,
+      @NonNull EditText etPassword, @NonNull EditText etUsername, @NonNull ImageView imgLogo,
+      @NonNull ProgressBar signupProgressBar, @NonNull Spinner spinnerRole,
       @NonNull TextView txtAppName, @NonNull TextView txtConfirmPasswordError,
-      @NonNull TextView txtEmailError, @NonNull TextView txtFullNameError,
-      @NonNull TextView txtPasswordError) {
+      @NonNull TextView txtDepartmentError, @NonNull TextView txtEmailError,
+      @NonNull TextView txtFullNameError, @NonNull TextView txtPasswordError,
+      @NonNull TextView txtUsernameError) {
     this.rootView = rootView;
     this.btnGotoLogin = btnGotoLogin;
     this.btnSignup = btnSignup;
     this.cardForm = cardForm;
     this.etConfirmPassword = etConfirmPassword;
+    this.etDepartment = etDepartment;
     this.etEmail = etEmail;
     this.etFullName = etFullName;
     this.etPassword = etPassword;
+    this.etUsername = etUsername;
     this.imgLogo = imgLogo;
     this.signupProgressBar = signupProgressBar;
+    this.spinnerRole = spinnerRole;
     this.txtAppName = txtAppName;
     this.txtConfirmPasswordError = txtConfirmPasswordError;
+    this.txtDepartmentError = txtDepartmentError;
     this.txtEmailError = txtEmailError;
     this.txtFullNameError = txtFullNameError;
     this.txtPasswordError = txtPasswordError;
+    this.txtUsernameError = txtUsernameError;
   }
 
   @Override
@@ -141,6 +164,12 @@ public final class ActivitySignupBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.etDepartment;
+      EditText etDepartment = ViewBindings.findChildViewById(rootView, id);
+      if (etDepartment == null) {
+        break missingId;
+      }
+
       id = R.id.etEmail;
       EditText etEmail = ViewBindings.findChildViewById(rootView, id);
       if (etEmail == null) {
@@ -159,6 +188,12 @@ public final class ActivitySignupBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.etUsername;
+      EditText etUsername = ViewBindings.findChildViewById(rootView, id);
+      if (etUsername == null) {
+        break missingId;
+      }
+
       id = R.id.imgLogo;
       ImageView imgLogo = ViewBindings.findChildViewById(rootView, id);
       if (imgLogo == null) {
@@ -171,6 +206,12 @@ public final class ActivitySignupBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.spinnerRole;
+      Spinner spinnerRole = ViewBindings.findChildViewById(rootView, id);
+      if (spinnerRole == null) {
+        break missingId;
+      }
+
       id = R.id.txtAppName;
       TextView txtAppName = ViewBindings.findChildViewById(rootView, id);
       if (txtAppName == null) {
@@ -180,6 +221,12 @@ public final class ActivitySignupBinding implements ViewBinding {
       id = R.id.txtConfirmPasswordError;
       TextView txtConfirmPasswordError = ViewBindings.findChildViewById(rootView, id);
       if (txtConfirmPasswordError == null) {
+        break missingId;
+      }
+
+      id = R.id.txtDepartmentError;
+      TextView txtDepartmentError = ViewBindings.findChildViewById(rootView, id);
+      if (txtDepartmentError == null) {
         break missingId;
       }
 
@@ -201,9 +248,16 @@ public final class ActivitySignupBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.txtUsernameError;
+      TextView txtUsernameError = ViewBindings.findChildViewById(rootView, id);
+      if (txtUsernameError == null) {
+        break missingId;
+      }
+
       return new ActivitySignupBinding((ScrollView) rootView, btnGotoLogin, btnSignup, cardForm,
-          etConfirmPassword, etEmail, etFullName, etPassword, imgLogo, signupProgressBar,
-          txtAppName, txtConfirmPasswordError, txtEmailError, txtFullNameError, txtPasswordError);
+          etConfirmPassword, etDepartment, etEmail, etFullName, etPassword, etUsername, imgLogo,
+          signupProgressBar, spinnerRole, txtAppName, txtConfirmPasswordError, txtDepartmentError,
+          txtEmailError, txtFullNameError, txtPasswordError, txtUsernameError);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

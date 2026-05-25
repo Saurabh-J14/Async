@@ -34,10 +34,10 @@ public final class ActivityLoginBinding implements ViewBinding {
   public final CardView cardForm;
 
   @NonNull
-  public final EditText etEmail;
+  public final EditText etPassword;
 
   @NonNull
-  public final EditText etPassword;
+  public final EditText etUsername;
 
   @NonNull
   public final ImageView imgLogo;
@@ -49,27 +49,27 @@ public final class ActivityLoginBinding implements ViewBinding {
   public final TextView txtAppName;
 
   @NonNull
-  public final TextView txtEmailError;
-
-  @NonNull
   public final TextView txtPasswordError;
 
+  @NonNull
+  public final TextView txtUsernameError;
+
   private ActivityLoginBinding(@NonNull ScrollView rootView, @NonNull TextView btnGotoSignup,
-      @NonNull Button btnLogin, @NonNull CardView cardForm, @NonNull EditText etEmail,
-      @NonNull EditText etPassword, @NonNull ImageView imgLogo,
+      @NonNull Button btnLogin, @NonNull CardView cardForm, @NonNull EditText etPassword,
+      @NonNull EditText etUsername, @NonNull ImageView imgLogo,
       @NonNull ProgressBar loginProgressBar, @NonNull TextView txtAppName,
-      @NonNull TextView txtEmailError, @NonNull TextView txtPasswordError) {
+      @NonNull TextView txtPasswordError, @NonNull TextView txtUsernameError) {
     this.rootView = rootView;
     this.btnGotoSignup = btnGotoSignup;
     this.btnLogin = btnLogin;
     this.cardForm = cardForm;
-    this.etEmail = etEmail;
     this.etPassword = etPassword;
+    this.etUsername = etUsername;
     this.imgLogo = imgLogo;
     this.loginProgressBar = loginProgressBar;
     this.txtAppName = txtAppName;
-    this.txtEmailError = txtEmailError;
     this.txtPasswordError = txtPasswordError;
+    this.txtUsernameError = txtUsernameError;
   }
 
   @Override
@@ -117,15 +117,15 @@ public final class ActivityLoginBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.etEmail;
-      EditText etEmail = ViewBindings.findChildViewById(rootView, id);
-      if (etEmail == null) {
-        break missingId;
-      }
-
       id = R.id.etPassword;
       EditText etPassword = ViewBindings.findChildViewById(rootView, id);
       if (etPassword == null) {
+        break missingId;
+      }
+
+      id = R.id.etUsername;
+      EditText etUsername = ViewBindings.findChildViewById(rootView, id);
+      if (etUsername == null) {
         break missingId;
       }
 
@@ -147,21 +147,21 @@ public final class ActivityLoginBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.txtEmailError;
-      TextView txtEmailError = ViewBindings.findChildViewById(rootView, id);
-      if (txtEmailError == null) {
-        break missingId;
-      }
-
       id = R.id.txtPasswordError;
       TextView txtPasswordError = ViewBindings.findChildViewById(rootView, id);
       if (txtPasswordError == null) {
         break missingId;
       }
 
+      id = R.id.txtUsernameError;
+      TextView txtUsernameError = ViewBindings.findChildViewById(rootView, id);
+      if (txtUsernameError == null) {
+        break missingId;
+      }
+
       return new ActivityLoginBinding((ScrollView) rootView, btnGotoSignup, btnLogin, cardForm,
-          etEmail, etPassword, imgLogo, loginProgressBar, txtAppName, txtEmailError,
-          txtPasswordError);
+          etPassword, etUsername, imgLogo, loginProgressBar, txtAppName, txtPasswordError,
+          txtUsernameError);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

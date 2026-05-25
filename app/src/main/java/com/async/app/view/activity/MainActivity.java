@@ -17,7 +17,7 @@ import com.async.app.databinding.ActivityMainBinding;
 import com.async.app.model.AppNotification;
 import com.async.app.model.Task;
 import com.async.app.model.User;
-import com.async.app.repository.MockDataRepository;
+import com.async.app.util.SessionManager;
 import com.async.app.util.NotificationHelper;
 import com.async.app.view.fragment.HomeFragment;
 import com.async.app.view.fragment.ManageFragment;
@@ -34,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private Fragment thirdFragment;
     private Fragment activeFragment = homeFragment;
 
-    private MockDataRepository repository;
+    private SessionManager sessionManager;
     private User currentUser;
+    private final java.util.List<AppNotification> localNotifications = new java.util.ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        repository = MockDataRepository.getInstance();
-        currentUser = repository.getCurrentUser();
+        sessionManager = SessionManager.getInstance(this);
+        currentUser = sessionManager.getUser();
 
         if (currentUser == null) {
             Toast.makeText(this, "Session expired, please log in.", Toast.LENGTH_SHORT).show();
@@ -71,13 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void showManagerAlertIfNeeded() {
         if (currentUser != null && "MANAGER".equalsIgnoreCase(currentUser.getRole())) {
-            int pendingCount = repository.getPendingReviewTasksCount();
+            int pendingCount = 0;
             if (pendingCount > 0) {
                 new AlertDialog.Builder(this)
                     .setTitle("Pending Reviews Alert")
                     .setMessage("Welcome back, Manager! You have " + pendingCount + " task(s) awaiting your review and approval.")
                     .setPositiveButton("Go to Manage Tab", (dialog, which) -> {
-                        // Switch to the third tab programmatically
                         binding.navView.setSelectedItemId(R.id.navigation_projects);
                     })
                     .setNegativeButton("Dismiss", null)
@@ -87,10 +87,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupThirdFragment() {
-        // If Manager logs in, dynamically load ManageFragment instead of ProjectsFragment
         if ("MANAGER".equalsIgnoreCase(currentUser.getRole())) {
             thirdFragment = new ManageFragment();
-            // Change BottomNav item title dynamically to "Manage"
             binding.navView.getMenu().findItem(R.id.navigation_projects).setTitle("Manage");
         } else {
             thirdFragment = new ProjectsFragment();
@@ -100,17 +98,14 @@ public class MainActivity extends AppCompatActivity {
     private void setupNavigation() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         
-        // Add all fragments to manager and hide non-active ones to preserve states
         fragmentManager.beginTransaction()
                 .add(R.id.nav_host_fragment, thirdFragment, "projects").hide(thirdFragment)
                 .add(R.id.nav_host_fragment, tasksFragment, "tasks").hide(tasksFragment)
                 .add(R.id.nav_host_fragment, homeFragment, "home")
                 .commit();
 
-        // Default item is Home in BottomNav
         binding.navView.setSelectedItemId(R.id.navigation_home);
 
-        // BottomNavigationView selection listener
         binding.navView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             Fragment nextFragment = null;
@@ -134,10 +129,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupToolbarNotifications() {
-        // Find notification elements from toolbar
-        RelativeLayout btnBell = findViewById(R.id.btn_notification_bell);
-        
-        btnBell.setOnClickListener(new View.OnClickListener() {
+        binding.btnNotificationBell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showNotificationsDialog();
@@ -148,23 +140,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateNotificationBadge() {
-        TextView txtBadge = findViewById(R.id.txt_notification_badge);
-        if (txtBadge == null || currentUser == null) return;
+        if (binding.txtNotificationBadge == null || currentUser == null) return;
 
-        int unreadCount = repository.getUnreadNotificationCount(currentUser.getEmail());
+        int unreadCount = 0;
+        for (AppNotification notification : localNotifications) {
+            if (!notification.isRead()) {
+                unreadCount++;
+            }
+        }
         if (unreadCount > 0) {
-            txtBadge.setVisibility(View.VISIBLE);
-            txtBadge.setText(String.valueOf(unreadCount));
+            binding.txtNotificationBadge.setVisibility(View.VISIBLE);
+            binding.txtNotificationBadge.setText(String.valueOf(unreadCount));
         } else {
-            txtBadge.setVisibility(View.GONE);
+            binding.txtNotificationBadge.setVisibility(View.GONE);
         }
     }
 
     private void showNotificationsDialog() {
         if (currentUser == null) return;
         
-        String email = currentUser.getEmail();
-        List<AppNotification> list = repository.getNotificationsForUser(email);
+        List<AppNotification> list = localNotifications;
         
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Notifications");
@@ -181,7 +176,9 @@ public class MainActivity extends AppCompatActivity {
         }
         
         builder.setPositiveButton("Mark as Read & Close", (dialog, which) -> {
-            repository.markNotificationsAsRead(email);
+            for (AppNotification notification : localNotifications) {
+                notification.setRead(true);
+            }
             updateNotificationBadge();
         });
         
@@ -191,66 +188,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Check/Update badge count when app re-enters foreground
         updateNotificationBadge();
-        
-        // Reload manager fragment if it's active
-        if (activeFragment instanceof ManageFragment) {
-            ((ManageFragment) activeFragment).onResume();
-        }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Trigger background task assignment simulation when app is closed/minimized
-        simulateBackgroundAssignment();
-    }
-
-    private void simulateBackgroundAssignment() {
-        if (currentUser == null || !"EMPLOYEE".equalsIgnoreCase(currentUser.getRole())) {
-            return;
-        }
-
-        final String userEmail = currentUser.getEmail();
-        
-        // Spawn background thread to simulate external server assigning task after 5 seconds
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(5000);
-                    
-                    String taskTitle = "Optimize Database Indexes";
-                    String taskDesc = "Analyze slow database queries and deploy composite indexes in production.";
-                    
-                    // Add new task under IT_DEPT workspace
-                    Task bgTask = new Task(
-                        "BG_" + System.currentTimeMillis(),
-                        taskTitle,
-                        taskDesc,
-                        "HIGH",
-                        "Database",
-                        "Due in 3 days",
-                        false,
-                        Task.STATUS_TODO,
-                        userEmail,
-                        "IT_DEPT"
-                    );
-                    
-                    boolean success = repository.addTask(bgTask);
-                    if (success) {
-                        // Fire a real system status bar notification
-                        NotificationHelper.showNotification(
-                            getApplicationContext(),
-                            "New Task Assigned",
-                            "You have been assigned: " + taskTitle
-                        );
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
 }

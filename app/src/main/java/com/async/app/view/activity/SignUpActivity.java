@@ -24,8 +24,18 @@ public class SignUpActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
 
+        setupRoleSpinner();
         setupObservers();
         setupListeners();
+    }
+
+    private void setupRoleSpinner() {
+        String[] roles = {"Manager", "Employee"};
+        android.widget.ArrayAdapter<String> adapter = new android.widget.ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, roles
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerRole.setAdapter(adapter);
     }
 
     private void setupObservers() {
@@ -44,6 +54,15 @@ public class SignUpActivity extends AppCompatActivity {
                 binding.txtFullNameError.setText(error);
             } else {
                 binding.txtFullNameError.setVisibility(View.GONE);
+            }
+        });
+
+        viewModel.getUsernameError().observe(this, error -> {
+            if (error != null) {
+                binding.txtUsernameError.setVisibility(View.VISIBLE);
+                binding.txtUsernameError.setText(error);
+            } else {
+                binding.txtUsernameError.setVisibility(View.GONE);
             }
         });
 
@@ -74,6 +93,15 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        viewModel.getDepartmentError().observe(this, error -> {
+            if (error != null) {
+                binding.txtDepartmentError.setVisibility(View.VISIBLE);
+                binding.txtDepartmentError.setText(error);
+            } else {
+                binding.txtDepartmentError.setVisibility(View.GONE);
+            }
+        });
+
         viewModel.getAuthError().observe(this, error -> {
             if (error != null) {
                 Toast.makeText(SignUpActivity.this, error, Toast.LENGTH_LONG).show();
@@ -94,10 +122,13 @@ public class SignUpActivity extends AppCompatActivity {
     private void setupListeners() {
         binding.btnSignup.setOnClickListener(v -> {
             String name = binding.etFullName.getText().toString().trim();
+            String username = binding.etUsername.getText().toString().trim();
             String email = binding.etEmail.getText().toString().trim();
             String password = binding.etPassword.getText().toString().trim();
             String confirmPassword = binding.etConfirmPassword.getText().toString().trim();
-            viewModel.signUp(name, email, password, confirmPassword);
+            String role = binding.spinnerRole.getSelectedItem().toString().trim();
+            String department = binding.etDepartment.getText().toString().trim();
+            viewModel.signUp(name, username, email, password, confirmPassword, role, department);
         });
 
         binding.btnGotoLogin.setOnClickListener(v -> finish());

@@ -4,6 +4,7 @@ package com.async.app.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.async.app.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -19,6 +21,18 @@ import java.lang.String;
 public final class FragmentProjectsBinding implements ViewBinding {
   @NonNull
   private final ConstraintLayout rootView;
+
+  @NonNull
+  public final TextView btnFilterAll;
+
+  @NonNull
+  public final TextView btnFilterMine;
+
+  @NonNull
+  public final FloatingActionButton fabAddProject;
+
+  @NonNull
+  public final LinearLayout layoutFilter;
 
   @NonNull
   public final RecyclerView rvProjects;
@@ -30,9 +44,15 @@ public final class FragmentProjectsBinding implements ViewBinding {
   public final TextView txtProjectsTitle;
 
   private FragmentProjectsBinding(@NonNull ConstraintLayout rootView,
+      @NonNull TextView btnFilterAll, @NonNull TextView btnFilterMine,
+      @NonNull FloatingActionButton fabAddProject, @NonNull LinearLayout layoutFilter,
       @NonNull RecyclerView rvProjects, @NonNull TextView txtProjectsSubtitle,
       @NonNull TextView txtProjectsTitle) {
     this.rootView = rootView;
+    this.btnFilterAll = btnFilterAll;
+    this.btnFilterMine = btnFilterMine;
+    this.fabAddProject = fabAddProject;
+    this.layoutFilter = layoutFilter;
     this.rvProjects = rvProjects;
     this.txtProjectsSubtitle = txtProjectsSubtitle;
     this.txtProjectsTitle = txtProjectsTitle;
@@ -65,6 +85,30 @@ public final class FragmentProjectsBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnFilterAll;
+      TextView btnFilterAll = ViewBindings.findChildViewById(rootView, id);
+      if (btnFilterAll == null) {
+        break missingId;
+      }
+
+      id = R.id.btnFilterMine;
+      TextView btnFilterMine = ViewBindings.findChildViewById(rootView, id);
+      if (btnFilterMine == null) {
+        break missingId;
+      }
+
+      id = R.id.fabAddProject;
+      FloatingActionButton fabAddProject = ViewBindings.findChildViewById(rootView, id);
+      if (fabAddProject == null) {
+        break missingId;
+      }
+
+      id = R.id.layoutFilter;
+      LinearLayout layoutFilter = ViewBindings.findChildViewById(rootView, id);
+      if (layoutFilter == null) {
+        break missingId;
+      }
+
       id = R.id.rvProjects;
       RecyclerView rvProjects = ViewBindings.findChildViewById(rootView, id);
       if (rvProjects == null) {
@@ -83,8 +127,8 @@ public final class FragmentProjectsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentProjectsBinding((ConstraintLayout) rootView, rvProjects,
-          txtProjectsSubtitle, txtProjectsTitle);
+      return new FragmentProjectsBinding((ConstraintLayout) rootView, btnFilterAll, btnFilterMine,
+          fabAddProject, layoutFilter, rvProjects, txtProjectsSubtitle, txtProjectsTitle);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

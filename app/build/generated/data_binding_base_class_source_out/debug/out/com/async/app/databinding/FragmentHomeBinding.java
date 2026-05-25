@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.async.app.R;
@@ -38,7 +39,16 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final CardView cardHomeAvatar;
 
   @NonNull
+  public final CardView cardLeaderboard;
+
+  @NonNull
+  public final ImageView imgChevron;
+
+  @NonNull
   public final ImageView imgHomeAvatar;
+
+  @NonNull
+  public final ImageView imgTrophyIcon;
 
   @NonNull
   public final LinearLayout layoutStats;
@@ -53,10 +63,22 @@ public final class FragmentHomeBinding implements ViewBinding {
   public final ProgressBar progressTasks;
 
   @NonNull
+  public final RecyclerView rvColleagues;
+
+  @NonNull
   public final TextView txtAnalyticsHeader;
 
   @NonNull
+  public final TextView txtColleaguesHeader;
+
+  @NonNull
   public final TextView txtGreeting;
+
+  @NonNull
+  public final TextView txtLeaderboardSubtitle;
+
+  @NonNull
+  public final TextView txtLeaderboardTitle;
 
   @NonNull
   public final TextView txtProductivityHeader;
@@ -75,25 +97,35 @@ public final class FragmentHomeBinding implements ViewBinding {
 
   private FragmentHomeBinding(@NonNull ScrollView rootView, @NonNull BarChart barChart,
       @NonNull CardView cardAnalytics, @NonNull CardView cardGreeting,
-      @NonNull CardView cardHomeAvatar, @NonNull ImageView imgHomeAvatar,
-      @NonNull LinearLayout layoutStats, @NonNull PieChart pieChart,
-      @NonNull ProgressBar progressProjects, @NonNull ProgressBar progressTasks,
-      @NonNull TextView txtAnalyticsHeader, @NonNull TextView txtGreeting,
-      @NonNull TextView txtProductivityHeader, @NonNull TextView txtProjectCount,
-      @NonNull TextView txtStatsHeader, @NonNull TextView txtTaskCount,
-      @NonNull TextView txtUserEmail) {
+      @NonNull CardView cardHomeAvatar, @NonNull CardView cardLeaderboard,
+      @NonNull ImageView imgChevron, @NonNull ImageView imgHomeAvatar,
+      @NonNull ImageView imgTrophyIcon, @NonNull LinearLayout layoutStats,
+      @NonNull PieChart pieChart, @NonNull ProgressBar progressProjects,
+      @NonNull ProgressBar progressTasks, @NonNull RecyclerView rvColleagues,
+      @NonNull TextView txtAnalyticsHeader, @NonNull TextView txtColleaguesHeader,
+      @NonNull TextView txtGreeting, @NonNull TextView txtLeaderboardSubtitle,
+      @NonNull TextView txtLeaderboardTitle, @NonNull TextView txtProductivityHeader,
+      @NonNull TextView txtProjectCount, @NonNull TextView txtStatsHeader,
+      @NonNull TextView txtTaskCount, @NonNull TextView txtUserEmail) {
     this.rootView = rootView;
     this.barChart = barChart;
     this.cardAnalytics = cardAnalytics;
     this.cardGreeting = cardGreeting;
     this.cardHomeAvatar = cardHomeAvatar;
+    this.cardLeaderboard = cardLeaderboard;
+    this.imgChevron = imgChevron;
     this.imgHomeAvatar = imgHomeAvatar;
+    this.imgTrophyIcon = imgTrophyIcon;
     this.layoutStats = layoutStats;
     this.pieChart = pieChart;
     this.progressProjects = progressProjects;
     this.progressTasks = progressTasks;
+    this.rvColleagues = rvColleagues;
     this.txtAnalyticsHeader = txtAnalyticsHeader;
+    this.txtColleaguesHeader = txtColleaguesHeader;
     this.txtGreeting = txtGreeting;
+    this.txtLeaderboardSubtitle = txtLeaderboardSubtitle;
+    this.txtLeaderboardTitle = txtLeaderboardTitle;
     this.txtProductivityHeader = txtProductivityHeader;
     this.txtProjectCount = txtProjectCount;
     this.txtStatsHeader = txtStatsHeader;
@@ -152,9 +184,27 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.cardLeaderboard;
+      CardView cardLeaderboard = ViewBindings.findChildViewById(rootView, id);
+      if (cardLeaderboard == null) {
+        break missingId;
+      }
+
+      id = R.id.imgChevron;
+      ImageView imgChevron = ViewBindings.findChildViewById(rootView, id);
+      if (imgChevron == null) {
+        break missingId;
+      }
+
       id = R.id.imgHomeAvatar;
       ImageView imgHomeAvatar = ViewBindings.findChildViewById(rootView, id);
       if (imgHomeAvatar == null) {
+        break missingId;
+      }
+
+      id = R.id.imgTrophyIcon;
+      ImageView imgTrophyIcon = ViewBindings.findChildViewById(rootView, id);
+      if (imgTrophyIcon == null) {
         break missingId;
       }
 
@@ -182,15 +232,39 @@ public final class FragmentHomeBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.rvColleagues;
+      RecyclerView rvColleagues = ViewBindings.findChildViewById(rootView, id);
+      if (rvColleagues == null) {
+        break missingId;
+      }
+
       id = R.id.txtAnalyticsHeader;
       TextView txtAnalyticsHeader = ViewBindings.findChildViewById(rootView, id);
       if (txtAnalyticsHeader == null) {
         break missingId;
       }
 
+      id = R.id.txtColleaguesHeader;
+      TextView txtColleaguesHeader = ViewBindings.findChildViewById(rootView, id);
+      if (txtColleaguesHeader == null) {
+        break missingId;
+      }
+
       id = R.id.txtGreeting;
       TextView txtGreeting = ViewBindings.findChildViewById(rootView, id);
       if (txtGreeting == null) {
+        break missingId;
+      }
+
+      id = R.id.txtLeaderboardSubtitle;
+      TextView txtLeaderboardSubtitle = ViewBindings.findChildViewById(rootView, id);
+      if (txtLeaderboardSubtitle == null) {
+        break missingId;
+      }
+
+      id = R.id.txtLeaderboardTitle;
+      TextView txtLeaderboardTitle = ViewBindings.findChildViewById(rootView, id);
+      if (txtLeaderboardTitle == null) {
         break missingId;
       }
 
@@ -225,9 +299,10 @@ public final class FragmentHomeBinding implements ViewBinding {
       }
 
       return new FragmentHomeBinding((ScrollView) rootView, barChart, cardAnalytics, cardGreeting,
-          cardHomeAvatar, imgHomeAvatar, layoutStats, pieChart, progressProjects, progressTasks,
-          txtAnalyticsHeader, txtGreeting, txtProductivityHeader, txtProjectCount, txtStatsHeader,
-          txtTaskCount, txtUserEmail);
+          cardHomeAvatar, cardLeaderboard, imgChevron, imgHomeAvatar, imgTrophyIcon, layoutStats,
+          pieChart, progressProjects, progressTasks, rvColleagues, txtAnalyticsHeader,
+          txtColleaguesHeader, txtGreeting, txtLeaderboardSubtitle, txtLeaderboardTitle,
+          txtProductivityHeader, txtProjectCount, txtStatsHeader, txtTaskCount, txtUserEmail);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
