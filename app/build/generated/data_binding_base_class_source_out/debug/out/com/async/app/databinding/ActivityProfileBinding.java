@@ -12,11 +12,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.async.app.R;
-import com.async.app.view.CustomCropView;
+import com.async.app.view.customs.CustomCropView;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -47,6 +48,12 @@ public final class ActivityProfileBinding implements ViewBinding {
   public final EditText etProfileName;
 
   @NonNull
+  public final EditText etProfilePassword;
+
+  @NonNull
+  public final EditText etProfileUsername;
+
+  @NonNull
   public final ImageView imgProfileAvatar;
 
   @NonNull
@@ -54,6 +61,9 @@ public final class ActivityProfileBinding implements ViewBinding {
 
   @NonNull
   public final LinearLayout layoutProfileMain;
+
+  @NonNull
+  public final SwitchCompat switchTheme;
 
   @NonNull
   public final Toolbar toolbarProfile;
@@ -67,10 +77,11 @@ public final class ActivityProfileBinding implements ViewBinding {
   private ActivityProfileBinding(@NonNull RelativeLayout rootView, @NonNull Button btnChangePhoto,
       @NonNull Button btnCropApply, @NonNull Button btnCropCancel, @NonNull Button btnLogout,
       @NonNull Button btnSaveProfile, @NonNull CustomCropView cropView,
-      @NonNull EditText etProfileName, @NonNull ImageView imgProfileAvatar,
+      @NonNull EditText etProfileName, @NonNull EditText etProfilePassword,
+      @NonNull EditText etProfileUsername, @NonNull ImageView imgProfileAvatar,
       @NonNull LinearLayout layoutCropContainer, @NonNull LinearLayout layoutProfileMain,
-      @NonNull Toolbar toolbarProfile, @NonNull TextView tvProfileEmail,
-      @NonNull TextView tvProfileRole) {
+      @NonNull SwitchCompat switchTheme, @NonNull Toolbar toolbarProfile,
+      @NonNull TextView tvProfileEmail, @NonNull TextView tvProfileRole) {
     this.rootView = rootView;
     this.btnChangePhoto = btnChangePhoto;
     this.btnCropApply = btnCropApply;
@@ -79,9 +90,12 @@ public final class ActivityProfileBinding implements ViewBinding {
     this.btnSaveProfile = btnSaveProfile;
     this.cropView = cropView;
     this.etProfileName = etProfileName;
+    this.etProfilePassword = etProfilePassword;
+    this.etProfileUsername = etProfileUsername;
     this.imgProfileAvatar = imgProfileAvatar;
     this.layoutCropContainer = layoutCropContainer;
     this.layoutProfileMain = layoutProfileMain;
+    this.switchTheme = switchTheme;
     this.toolbarProfile = toolbarProfile;
     this.tvProfileEmail = tvProfileEmail;
     this.tvProfileRole = tvProfileRole;
@@ -156,6 +170,18 @@ public final class ActivityProfileBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.et_profile_password;
+      EditText etProfilePassword = ViewBindings.findChildViewById(rootView, id);
+      if (etProfilePassword == null) {
+        break missingId;
+      }
+
+      id = R.id.et_profile_username;
+      EditText etProfileUsername = ViewBindings.findChildViewById(rootView, id);
+      if (etProfileUsername == null) {
+        break missingId;
+      }
+
       id = R.id.img_profile_avatar;
       ImageView imgProfileAvatar = ViewBindings.findChildViewById(rootView, id);
       if (imgProfileAvatar == null) {
@@ -171,6 +197,12 @@ public final class ActivityProfileBinding implements ViewBinding {
       id = R.id.layout_profile_main;
       LinearLayout layoutProfileMain = ViewBindings.findChildViewById(rootView, id);
       if (layoutProfileMain == null) {
+        break missingId;
+      }
+
+      id = R.id.switch_theme;
+      SwitchCompat switchTheme = ViewBindings.findChildViewById(rootView, id);
+      if (switchTheme == null) {
         break missingId;
       }
 
@@ -193,8 +225,9 @@ public final class ActivityProfileBinding implements ViewBinding {
       }
 
       return new ActivityProfileBinding((RelativeLayout) rootView, btnChangePhoto, btnCropApply,
-          btnCropCancel, btnLogout, btnSaveProfile, cropView, etProfileName, imgProfileAvatar,
-          layoutCropContainer, layoutProfileMain, toolbarProfile, tvProfileEmail, tvProfileRole);
+          btnCropCancel, btnLogout, btnSaveProfile, cropView, etProfileName, etProfilePassword,
+          etProfileUsername, imgProfileAvatar, layoutCropContainer, layoutProfileMain, switchTheme,
+          toolbarProfile, tvProfileEmail, tvProfileRole);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -1,22 +1,44 @@
 package com.async.app.model;
 
 public class User {
+    private String id;
     private String fullName;
     private String email;
     private String password;
-    private String role; // "EMPLOYEE" or "MANAGER"
-    private String profileImage; // Base64 representation of cropped avatar
+    private String role;
+    private String profileImage;
+    private String username;
+    private String department;
 
     public User(String fullName, String email, String password, String role) {
+        this.id = "";
         this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.role = role;
         this.profileImage = null;
+        this.username = "";
+        this.department = "";
     }
 
     public User(String fullName, String email, String password) {
         this(fullName, email, password, "EMPLOYEE");
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getFullName() {
@@ -57,5 +79,13 @@ public class User {
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

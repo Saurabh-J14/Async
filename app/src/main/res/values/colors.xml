@@ -3,20 +3,17 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Brand Color Palette -->
     <color name="primary">#6C5CE7</color>
     <color name="primary_light">#A29BFE</color>
     <color name="primary_dark">#4834D4</color>
     <color name="accent">#00CEC9</color>
     
-    <!-- Neutral Colors -->
     <color name="bg_light">#F5F6FA</color>
     <color name="text_primary">#2D3436</color>
     <color name="text_secondary">#636E72</color>
     <color name="text_hint">#B2BEC3</color>
     <color name="border_color">#DFE6E9</color>
     
-    <!-- Priority Levels -->
     <color name="priority_high_bg">#FFEBEE</color>
     <color name="priority_high_txt">#D32F2F</color>
     
@@ -26,7 +23,6 @@
     <color name="priority_low_bg">#E3F2FD</color>
     <color name="priority_low_txt">#1976D2</color>
     
-    <!-- Status Indicator -->
     <color name="error_red">#FF7675</color>
     <color name="success_green">#2ECC71</color>
 </resources>

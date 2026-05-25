@@ -29,6 +29,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Action Buttons (Edit & Delete) -->
+        <LinearLayout
+            android:id="@+id/layoutProjectActions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnEditProject"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="Edit Project"
+                android:padding="6dp"
+                app:tint="@color/primary" />
+
+            <ImageButton
+                android:id="@+id/btnDeleteProject"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_delete"
+                android:contentDescription="Delete Project"
+                android:padding="6dp"
+                app:tint="@color/error_red" />
+        </LinearLayout>
+
         <!-- Project Name -->
         <TextView
             android:id="@+id/txtProjectName"

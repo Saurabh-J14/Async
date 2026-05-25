@@ -29,11 +29,14 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.async.app.view.adapters.ColleagueAdapter;
+
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
+    private ColleagueAdapter colleagueAdapter;
 
     @Nullable
     @Override
@@ -47,6 +50,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
+        setupColleaguesRecyclerView();
         setupCharts();
         setupObservers();
 
@@ -54,13 +58,27 @@ public class HomeFragment extends Fragment {
             android.content.Intent intent = new android.content.Intent(getActivity(), com.async.app.view.activity.ProfileActivity.class);
             startActivity(intent);
         });
+
+        binding.cardLeaderboard.setOnClickListener(v -> {
+            android.content.Intent intent = new android.content.Intent(getActivity(), com.async.app.view.activity.LeaderboardActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // Load data on resume to capture any updates in tasks/projects lists
-        viewModel.loadDashboardData();
+        if (!isHidden()) {
+            viewModel.loadDashboardData();
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            viewModel.loadDashboardData();
+        }
     }
 
     private void setupObservers() {
@@ -101,6 +119,12 @@ public class HomeFragment extends Fragment {
                 binding.progressProjects.setProgress(progress));
 
         viewModel.getTasksList().observe(getViewLifecycleOwner(), this::updateCharts);
+
+        viewModel.getDepartmentColleagues().observe(getViewLifecycleOwner(), colleagues -> {
+            if (colleagues != null) {
+                colleagueAdapter.setColleagues(colleagues);
+            }
+        });
     }
 
     private void setupCharts() {
@@ -221,6 +245,13 @@ public class HomeFragment extends Fragment {
 
         binding.barChart.invalidate();
         binding.barChart.animateY(1000);
+    }
+
+    private void setupColleaguesRecyclerView() {
+        colleagueAdapter = new ColleagueAdapter();
+        binding.rvColleagues.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(
+                requireContext(), androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false));
+        binding.rvColleagues.setAdapter(colleagueAdapter);
     }
 
     @Override

@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.async.app.databinding.ActivityLoginBinding;
+import com.async.app.model.User;
+import com.async.app.util.SessionManager;
 import com.async.app.viewmodel.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
@@ -24,12 +26,17 @@ public class LoginActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        // Prepopulate with mock credentials for easy verification
-        binding.etEmail.setText("user@async.com");
-        binding.etPassword.setText("password123");
-
         setupObservers();
         setupListeners();
+        
+        SessionManager sessionManager = SessionManager.getInstance(this);
+        if (sessionManager.isLoggedIn()) {
+            User user = sessionManager.getUser();
+            binding.cardForm.setVisibility(View.GONE);
+            binding.btnGotoSignup.setVisibility(View.GONE);
+            binding.loginProgressBar.setVisibility(View.VISIBLE);
+            viewModel.checkServerAuthentication(user.getUsername(), user.getPassword());
+        }
     }
 
     private void setupObservers() {
@@ -41,13 +48,28 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Observe field errors
-        viewModel.getEmailError().observe(this, error -> {
+        viewModel.getAuthCheckSuccess().observe(this, authenticated -> {
+            if (authenticated != null) {
+                if (authenticated) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    SessionManager.getInstance(LoginActivity.this).logout();
+                    Toast.makeText(LoginActivity.this, "Session expired, please log in again.", Toast.LENGTH_SHORT).show();
+                    binding.cardForm.setVisibility(View.VISIBLE);
+                    binding.btnGotoSignup.setVisibility(View.VISIBLE);
+                    binding.loginProgressBar.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        viewModel.getUsernameError().observe(this, error -> {
             if (error != null) {
-                binding.txtEmailError.setVisibility(View.VISIBLE);
-                binding.txtEmailError.setText(error);
+                binding.txtUsernameError.setVisibility(View.VISIBLE);
+                binding.txtUsernameError.setText(error);
             } else {
-                binding.txtEmailError.setVisibility(View.GONE);
+                binding.txtUsernameError.setVisibility(View.GONE);
             }
         });
 
@@ -60,30 +82,30 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Observe authorization failure
         viewModel.getAuthError().observe(this, error -> {
             if (error != null) {
                 Toast.makeText(LoginActivity.this, error, Toast.LENGTH_LONG).show();
             }
         });
 
-        // Observe loading indicator
         viewModel.getIsLoading().observe(this, isLoading -> {
-            if (isLoading != null && isLoading) {
-                binding.loginProgressBar.setVisibility(View.VISIBLE);
-                binding.btnLogin.setEnabled(false);
-            } else {
-                binding.loginProgressBar.setVisibility(View.GONE);
-                binding.btnLogin.setEnabled(true);
+            if (binding.cardForm.getVisibility() == View.VISIBLE) {
+                if (isLoading != null && isLoading) {
+                    binding.loginProgressBar.setVisibility(View.VISIBLE);
+                    binding.btnLogin.setEnabled(false);
+                } else {
+                    binding.loginProgressBar.setVisibility(View.GONE);
+                    binding.btnLogin.setEnabled(true);
+                }
             }
         });
     }
 
     private void setupListeners() {
         binding.btnLogin.setOnClickListener(v -> {
-            String email = binding.etEmail.getText().toString().trim();
+            String username = binding.etUsername.getText().toString().trim();
             String password = binding.etPassword.getText().toString().trim();
-            viewModel.login(email, password);
+            viewModel.login(username, password);
         });
 
         binding.btnGotoSignup.setOnClickListener(v -> {

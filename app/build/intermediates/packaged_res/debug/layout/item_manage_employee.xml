@@ -101,6 +101,27 @@
                     android:gravity="center"
                     android:visibility="gone"/>
             </LinearLayout>
+
+            <!-- Edit Button -->
+            <ImageButton
+                android:id="@+id/btn_edit_employee"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_edit"
+                android:contentDescription="Edit Employee"
+                app:tint="@color/primary" />
+
+            <!-- Delete Button -->
+            <ImageButton
+                android:id="@+id/btn_delete_employee"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_delete"
+                android:contentDescription="Delete Employee" />
         </LinearLayout>
 
         <!-- Separator -->

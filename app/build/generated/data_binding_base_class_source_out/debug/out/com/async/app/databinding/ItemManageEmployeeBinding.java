@@ -4,6 +4,7 @@ package com.async.app.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +21,12 @@ import java.lang.String;
 public final class ItemManageEmployeeBinding implements ViewBinding {
   @NonNull
   private final CardView rootView;
+
+  @NonNull
+  public final ImageButton btnDeleteEmployee;
+
+  @NonNull
+  public final ImageButton btnEditEmployee;
 
   @NonNull
   public final LinearLayout containerTasks;
@@ -49,12 +56,15 @@ public final class ItemManageEmployeeBinding implements ViewBinding {
   public final TextView txtWorkloadSummary;
 
   private ItemManageEmployeeBinding(@NonNull CardView rootView,
+      @NonNull ImageButton btnDeleteEmployee, @NonNull ImageButton btnEditEmployee,
       @NonNull LinearLayout containerTasks, @NonNull ImageView imgEmployeeAvatar,
       @NonNull LinearLayout layoutEmployeeHeader, @NonNull LinearLayout layoutTasksContainer,
       @NonNull View separatorLine, @NonNull TextView txtEmployeeEmail,
       @NonNull TextView txtEmployeeName, @NonNull TextView txtReviewCount,
       @NonNull TextView txtWorkloadSummary) {
     this.rootView = rootView;
+    this.btnDeleteEmployee = btnDeleteEmployee;
+    this.btnEditEmployee = btnEditEmployee;
     this.containerTasks = containerTasks;
     this.imgEmployeeAvatar = imgEmployeeAvatar;
     this.layoutEmployeeHeader = layoutEmployeeHeader;
@@ -93,6 +103,18 @@ public final class ItemManageEmployeeBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btn_delete_employee;
+      ImageButton btnDeleteEmployee = ViewBindings.findChildViewById(rootView, id);
+      if (btnDeleteEmployee == null) {
+        break missingId;
+      }
+
+      id = R.id.btn_edit_employee;
+      ImageButton btnEditEmployee = ViewBindings.findChildViewById(rootView, id);
+      if (btnEditEmployee == null) {
+        break missingId;
+      }
+
       id = R.id.container_tasks;
       LinearLayout containerTasks = ViewBindings.findChildViewById(rootView, id);
       if (containerTasks == null) {
@@ -147,9 +169,9 @@ public final class ItemManageEmployeeBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemManageEmployeeBinding((CardView) rootView, containerTasks, imgEmployeeAvatar,
-          layoutEmployeeHeader, layoutTasksContainer, separatorLine, txtEmployeeEmail,
-          txtEmployeeName, txtReviewCount, txtWorkloadSummary);
+      return new ItemManageEmployeeBinding((CardView) rootView, btnDeleteEmployee, btnEditEmployee,
+          containerTasks, imgEmployeeAvatar, layoutEmployeeHeader, layoutTasksContainer,
+          separatorLine, txtEmployeeEmail, txtEmployeeName, txtReviewCount, txtWorkloadSummary);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -42,8 +42,22 @@ public class MyTaskFragment extends Fragment {
         setupRecyclerView();
         setupObservers();
         setupListeners();
+    }
 
-        viewModel.loadTasks();
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isHidden()) {
+            viewModel.loadTasks();
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            viewModel.loadTasks();
+        }
     }
 
     private void setupRecyclerView() {
@@ -61,6 +75,12 @@ public class MyTaskFragment extends Fragment {
                 binding.layoutEmptyState.setVisibility(View.GONE);
                 binding.rvTasks.setVisibility(View.VISIBLE);
                 adapter.setTasks(tasks);
+            }
+        });
+
+        viewModel.getOperationStatus().observe(getViewLifecycleOwner(), status -> {
+            if (status != null && !status.isEmpty()) {
+                Toast.makeText(getContext(), status, Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_light">
+
+    <!-- Premium Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarLeaderboard"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Department Leaderboard"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Main Content NestedScrollView -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLeaderboard"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <!-- Premium Podium Layout -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutPodium"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:background="@drawable/bg_gradient_primary"
+                android:paddingTop="16dp"
+                android:paddingBottom="12dp">
+
+                <!-- 2nd PLACE (LEFT) -->
+                <LinearLayout
+                    android:id="@+id/podiumSecond"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/podiumFirst"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5">
+
+                    <!-- Silver Border Avatar Frame -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="66dp"
+                        android:layout_height="66dp"
+                        app:cardCornerRadius="33dp"
+                        app:cardBackgroundColor="#C0C0C0"
+                        app:cardElevation="2dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            app:cardCornerRadius="30dp"
+                            app:cardElevation="0dp">
+
+                            <ImageView
+                                android:id="@+id/imgSecondAvatar"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_avatar_placeholder" />
+                        </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/txtSecondName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Name"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtSecondScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-- pts"
+                        android:textColor="#E0F7FA"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <!-- Visual Podium Bar -->
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#80FFFFFF" />
+                </LinearLayout>
+
+                <!-- 1st PLACE (CENTER) -->
+                <LinearLayout
+                    android:id="@+id/podiumFirst"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/podiumThird"
+                    app:layout_constraintStart_toEndOf="@id/podiumSecond"
+                    app:layout_constraintHorizontal_bias="0.5">
+
+                    <!-- Crown Star Indicator -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="👑"
+                        android:textSize="20sp" />
+
+                    <!-- Gold Border Avatar Frame -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="76dp"
+                        android:layout_height="76dp"
+                        app:cardCornerRadius="38dp"
+                        app:cardBackgroundColor="#FFD700"
+                        app:cardElevation="4dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_gravity="center"
+                            app:cardCornerRadius="35dp"
+                            app:cardElevation="0dp">
+
+                            <ImageView
+                                android:id="@+id/imgFirstAvatar"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_avatar_placeholder" />
+                        </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/txtFirstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Name"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtFirstScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-- pts"
+                        android:textColor="#E0F7FA"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <!-- Visual Podium Bar (Tallest) -->
+                    <View
+                        android:layout_width="70dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#B3FFFFFF" />
+                </LinearLayout>
+
+                <!-- 3rd PLACE (RIGHT) -->
+                <LinearLayout
+                    android:id="@+id/podiumThird"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/podiumFirst"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5">
+
+                    <!-- Bronze Border Avatar Frame -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="66dp"
+                        android:layout_height="66dp"
+                        app:cardCornerRadius="33dp"
+                        app:cardBackgroundColor="#CD7F32"
+                        app:cardElevation="2dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            app:cardCornerRadius="30dp"
+                            app:cardElevation="0dp">
+
+                            <ImageView
+                                android:id="@+id/imgThirdAvatar"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_avatar_placeholder" />
+                        </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/txtThirdName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="Name"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtThirdScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-- pts"
+                        android:textColor="#E0F7FA"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <!-- Visual Podium Bar (Shortest) -->
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="25dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#50FFFFFF" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Remaining Standings Header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:text="Leaderboard Standings"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Standings RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerLeaderboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_leaderboard_user" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Loading State View -->
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Empty State / Error View Overlay -->
+    <LinearLayout
+        android:id="@+id/layoutEmptyState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLeaderboard"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🏆"
+            android:textSize="64sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="No Leaderboard Data Yet"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Ranks will appear as employees in your department complete tasks and score points."
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

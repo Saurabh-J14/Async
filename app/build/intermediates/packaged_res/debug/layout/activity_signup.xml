@@ -138,6 +138,90 @@
                     android:textSize="12sp"
                     android:visibility="gone" />
 
+                <!-- Username Input Group -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/label_username"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_edittext"
+                    android:hint="@string/hint_username"
+                    android:inputType="text"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp"
+                    android:textColorHint="@color/text_hint"
+                    android:importantForAutofill="no" />
+
+                <TextView
+                    android:id="@+id/txtUsernameError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/error_red"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <!-- Department Input Group -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/label_department"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etDepartment"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_edittext"
+                    android:hint="@string/hint_department"
+                    android:inputType="text"
+                    android:paddingHorizontal="16dp"
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp"
+                    android:textColorHint="@color/text_hint"
+                    android:importantForAutofill="no" />
+
+                <TextView
+                    android:id="@+id/txtDepartmentError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/error_red"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <!-- Role Input Group -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/label_role"
+                    android:textColor="@color/text_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinnerRole"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_edittext"
+                    android:paddingHorizontal="16dp" />
+
                 <!-- Password Input Group -->
                 <TextView
                     android:layout_width="wrap_content"

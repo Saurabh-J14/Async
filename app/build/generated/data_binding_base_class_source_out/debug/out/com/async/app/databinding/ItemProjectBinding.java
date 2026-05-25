@@ -4,6 +4,8 @@ package com.async.app.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,7 +24,16 @@ public final class ItemProjectBinding implements ViewBinding {
   private final CardView rootView;
 
   @NonNull
+  public final ImageButton btnDeleteProject;
+
+  @NonNull
+  public final ImageButton btnEditProject;
+
+  @NonNull
   public final RelativeLayout layoutProgressInfo;
+
+  @NonNull
+  public final LinearLayout layoutProjectActions;
 
   @NonNull
   public final ProgressBar pbProjectProgress;
@@ -42,12 +53,17 @@ public final class ItemProjectBinding implements ViewBinding {
   @NonNull
   public final TextView txtProjectProgressValue;
 
-  private ItemProjectBinding(@NonNull CardView rootView, @NonNull RelativeLayout layoutProgressInfo,
-      @NonNull ProgressBar pbProjectProgress, @NonNull TextView txtProjectCategory,
-      @NonNull TextView txtProjectDescription, @NonNull TextView txtProjectMembers,
-      @NonNull TextView txtProjectName, @NonNull TextView txtProjectProgressValue) {
+  private ItemProjectBinding(@NonNull CardView rootView, @NonNull ImageButton btnDeleteProject,
+      @NonNull ImageButton btnEditProject, @NonNull RelativeLayout layoutProgressInfo,
+      @NonNull LinearLayout layoutProjectActions, @NonNull ProgressBar pbProjectProgress,
+      @NonNull TextView txtProjectCategory, @NonNull TextView txtProjectDescription,
+      @NonNull TextView txtProjectMembers, @NonNull TextView txtProjectName,
+      @NonNull TextView txtProjectProgressValue) {
     this.rootView = rootView;
+    this.btnDeleteProject = btnDeleteProject;
+    this.btnEditProject = btnEditProject;
     this.layoutProgressInfo = layoutProgressInfo;
+    this.layoutProjectActions = layoutProjectActions;
     this.pbProjectProgress = pbProjectProgress;
     this.txtProjectCategory = txtProjectCategory;
     this.txtProjectDescription = txtProjectDescription;
@@ -83,9 +99,27 @@ public final class ItemProjectBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnDeleteProject;
+      ImageButton btnDeleteProject = ViewBindings.findChildViewById(rootView, id);
+      if (btnDeleteProject == null) {
+        break missingId;
+      }
+
+      id = R.id.btnEditProject;
+      ImageButton btnEditProject = ViewBindings.findChildViewById(rootView, id);
+      if (btnEditProject == null) {
+        break missingId;
+      }
+
       id = R.id.layoutProgressInfo;
       RelativeLayout layoutProgressInfo = ViewBindings.findChildViewById(rootView, id);
       if (layoutProgressInfo == null) {
+        break missingId;
+      }
+
+      id = R.id.layoutProjectActions;
+      LinearLayout layoutProjectActions = ViewBindings.findChildViewById(rootView, id);
+      if (layoutProjectActions == null) {
         break missingId;
       }
 
@@ -125,9 +159,9 @@ public final class ItemProjectBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemProjectBinding((CardView) rootView, layoutProgressInfo, pbProjectProgress,
-          txtProjectCategory, txtProjectDescription, txtProjectMembers, txtProjectName,
-          txtProjectProgressValue);
+      return new ItemProjectBinding((CardView) rootView, btnDeleteProject, btnEditProject,
+          layoutProgressInfo, layoutProjectActions, pbProjectProgress, txtProjectCategory,
+          txtProjectDescription, txtProjectMembers, txtProjectName, txtProjectProgressValue);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

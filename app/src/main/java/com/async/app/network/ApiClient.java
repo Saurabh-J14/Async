@@ -14,19 +14,33 @@ public class ApiClient {
 
     public static synchronized ApiService getApiService() {
         if (apiService == null) {
-            // Set up logging interceptor to print request and response details in Logcat
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            // Configure OkHttpClient with timeouts and the logging interceptor
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(loggingInterceptor)
+                    .addInterceptor(chain -> {
+                        okhttp3.Request original = chain.request();
+                        okhttp3.Request.Builder requestBuilder = original.newBuilder();
+                        
+                        String path = original.url().encodedPath();
+                        if (!path.contains("/user/login") && !path.contains("/user/signup") && !path.contains("/user/register")) {
+                            com.async.app.AsyncApplication app = com.async.app.AsyncApplication.getInstance();
+                            if (app != null) {
+                                String token = com.async.app.util.SessionManager.getInstance(app).getToken();
+                                if (token != null && !token.trim().isEmpty()) {
+                                    requestBuilder.header("Authorization", "Bearer " + token);
+                                }
+                            }
+                        }
+                        
+                        return chain.proceed(requestBuilder.build());
+                    })
                     .connectTimeout(15, TimeUnit.SECONDS)
                     .readTimeout(15, TimeUnit.SECONDS)
                     .writeTimeout(15, TimeUnit.SECONDS)
                     .build();
 
-            // Set up Retrofit instance with Gson converter and base URL
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(okHttpClient)

@@ -72,24 +72,24 @@
                     android:textColor="@color/text_secondary"
                     android:textSize="14sp" />
 
-                <!-- Email Input Group -->
+                <!-- Username Input Group -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@string/label_email"
+                    android:text="@string/label_username"
                     android:textColor="@color/text_primary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/etEmail"
+                    android:id="@+id/etUsername"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="6dp"
                     android:background="@drawable/bg_edittext"
-                    android:hint="@string/hint_email"
-                    android:inputType="textEmailAddress"
+                    android:hint="@string/hint_username"
+                    android:inputType="text"
                     android:paddingHorizontal="16dp"
                     android:textColor="@color/text_primary"
                     android:textSize="14sp"
@@ -97,7 +97,7 @@
                     android:importantForAutofill="no" />
 
                 <TextView
-                    android:id="@+id/txtEmailError"
+                    android:id="@+id/txtUsernameError"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
